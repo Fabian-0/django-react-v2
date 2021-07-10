@@ -25,7 +25,7 @@ SECRET_KEY = '+bd9xmsuownazy3z^j^x*&5p!pa&0bdr^l#2x+3p6d91(j4yr3'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.1.138']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'moduls.GenericUser.apps.GenericuserConfig',
     'rest_framework',
     'rest_framework_simplejwt',
-    'frontend'
+    'frontend',
+    'drf_yasg'
 ]
 
 MIDDLEWARE = [
@@ -139,9 +140,9 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 5,
 }
 
-from datetime import timedelta
-
 EMAIL_HOST = 'smtp.mailtrap.io'
 EMAIL_HOST_USER = '2439fac42dd830'
 EMAIL_HOST_PASSWORD = '94bb5cf9807b91'
 EMAIL_PORT = '2525'
+
+CELERY_BROKER_URL = 'amqp://guest:guest@localhost:5672//'

@@ -7,6 +7,7 @@ from moduls.students.permissions import StuentPermissions
 from rest_framework import status
 from rest_framework.decorators import action
 from django.core.mail import send_mail
+from moduls.students.tasks import student_send_mail
 
 class StudentsViewSet(ModelViewSet):
   queryset = User.objects.all()
@@ -18,16 +19,18 @@ class StudentsViewSet(ModelViewSet):
     serializer = self.get_serializer_class()
     serialized = serializer(request.user)
     send_mail(
-      'Se ha registrado Correctamente',
-      'Bienvenido a la plataforma!',
-      'test@gmail.com',
-      [request.user.email],
+      subject='Se ha registrado Correctamente',
+      message='Bienvenido a la plataforma!',
+      from_email='test@gmail.com',
+      recipient_list=['test@email.com'],
       fail_silently=True
     )
+    # student_send_mail(args=['test@test.com'])
     return Response(status=status.HTTP_200_OK, data=serialized.data)
 
   def create(self,  request, *args, **kwargs):
     serialized = StudentCreateSerializer(data=request.data)
+
     if serialized.is_valid():
       serialized.save()
       return Response(status=status.HTTP_201_CREATED)

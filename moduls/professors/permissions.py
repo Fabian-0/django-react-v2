@@ -2,18 +2,25 @@ from rest_framework.permissions import BasePermission
 
 class ProfessorPermissions(BasePermission):
 
+  CUSTOM_SAVE_METHODS = ['GET', 'PUT', 'PATCH', 'DELETE']
+
   def has_permission(self, request, view):
     print('-- BasePermissions Professors  --')
-    method = request.method 
-    if method == 'GET'  or method == 'PUT' or method == 'PATCH' and request.user.is_authenticated:
+    isProfessor = False
+    try:
+      if request.user.student:
+        isProfessor = True
+    except:
+      isProfessor = False
+      
+    method = request.method
+
+    if method in self.CUSTOM_SAVE_METHODS and request.user.is_authenticated and isProfessor:
       return True
 
     if method == 'POST':
       return True
 
-    if method == 'DELETE':
-      return True
-    
     return False
 
   def has_object_permission(self, request, view, obj):
