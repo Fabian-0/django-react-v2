@@ -3,7 +3,7 @@ from django.core.mail import send_mail
 
 @app.task(name='student-created')
 def student_send_mail(email):
-  subject=''
+
   send_mail(
     subject='Se ha registrado Correctamente',
     message='Bienvenido a la plataforma!',

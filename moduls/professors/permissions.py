@@ -5,10 +5,9 @@ class ProfessorPermissions(BasePermission):
   CUSTOM_SAVE_METHODS = ['GET', 'PUT', 'PATCH', 'DELETE']
 
   def has_permission(self, request, view):
-    print('-- BasePermissions Professors  --')
     isProfessor = False
     try:
-      if request.user.student:
+      if request.user.professor:
         isProfessor = True
     except:
       isProfessor = False
@@ -24,7 +23,6 @@ class ProfessorPermissions(BasePermission):
     return False
 
   def has_object_permission(self, request, view, obj):
-    if not request.user.is_authenticated:
-      return False
-    print(request.user.is_authenticated, view.basename)
-    return super().has_object_permission(request, view, obj)
+    if request.user.id == obj.id:
+      return True
+    return False

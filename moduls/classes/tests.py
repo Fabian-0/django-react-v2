@@ -135,6 +135,7 @@ class ClassroomTestCase(APITestCase):
    
     self.assertEqual(create_response.status_code, 200)
 
+  # Tests to Delete
 
   def test_delete_inexistent_class(self):
     response = self.client.delete(f'{self.BASE_URL}/classes/nan/', HTTP_AUTHORIZATION = f'Bearer {self.professor_token}')
